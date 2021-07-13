@@ -87,8 +87,11 @@ void mm_scheduler_new(mm_scheduler_t *scheduler, mm_coroutine_t *coroutine,
 	coroutine->id = scheduler->id_seq++;
 	coroutine->function = function;
 	coroutine->function_arg = arg;
-	mm_context_create(&coroutine->context, &coroutine->stack,
-			  mm_scheduler_main, coroutine);
+	#if __i386__ || __x86_64__
+	mm_context_create(&coroutine->context, &coroutine->stack,mm_scheduler_main, coroutine);
+	#else
+	mm_context_create(&coroutine->context, &(scheduler->main.context), &coroutine->stack,mm_scheduler_main, coroutine);
+	#endif
 	mm_scheduler_set(scheduler, coroutine, MM_CREADY);
 }
 
