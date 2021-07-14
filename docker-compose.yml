@@ -14,6 +14,7 @@ services:
       - ..:/odyssey
 
   dev:
+    image: odyssey
     build:
       dockerfile: ./docker/dev/Dockerfile
       context: .

@@ -45,7 +45,7 @@ static inline void **mm_context_prepare(mm_contextstack_t *stack)
 	return sp;
 }
 
-void mm_context_create(mm_context_t *context, mm_contextstack_t *stack,
+void mm_context_create(mm_context_t *context, mm_context_t *ctx_main, mm_contextstack_t *stack,
 		       void (*function)(void *), void *arg)
 {
 	/* must be first */
@@ -64,9 +64,9 @@ void mm_context_create(mm_context_t *context, mm_contextstack_t *stack,
 	mm_context_swap(&context_runner, context);
 }
 
-#if !defined(__amd64) && !defined(__i386)
-#error unsupported architecture
-#endif
+// #if !defined(__amd64) && !defined(__i386)
+// #error unsupported architecture
+// #endif
 
 asm("\t.text\n"
     "\t.globl mm_context_swap\n"
